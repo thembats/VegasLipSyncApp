@@ -55,5 +55,16 @@ namespace LipSyncApp
                 }
             }
         }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // PictureBoxControl
+            // 
+            this.Name = "PictureBoxControl";
+            this.ResumeLayout(false);
+
+        }
     }
 }

@@ -13,6 +13,9 @@ namespace LipSyncApp
         internal Vegas myVegas;
         private int index = 0;
         private List<Button> addButtons = new List<Button>();
+        private NumericUpDown numericUpDown1 = new NumericUpDown();
+        private Label upDownLabel = new Label();
+        private int animationTrack = 0;
 
         public LipSyncUserControl(Vegas vegas)
         {
@@ -23,8 +26,21 @@ namespace LipSyncApp
         private void InitializeComponent()
         {
             this.MouseWheel += OnMouseWheelScrollAndControl;
-            GenerateTable(5, 2);
+            
+            this.GenerateTable(5, 2);
             this.Controls.Add(this.TableLayoutPanel);
+
+            this.upDownLabel.Text = "Add to track (1 - 10):";
+            this.upDownLabel.Size = new Size(120, 20);
+            this.upDownLabel.Location = new Point(5, this.TableLayoutPanel.Height + 10);
+            this.Controls.Add(this.upDownLabel);
+            this.numericUpDown1.Value = 0;
+            this.numericUpDown1.Maximum = 10;
+            this.numericUpDown1.Minimum = 1;
+            this.numericUpDown1.Size = new Size(50, 26);
+            this.numericUpDown1.Location = new Point(upDownLabel.Location.X + upDownLabel.Width, upDownLabel.Location.Y);
+            this.numericUpDown1.ValueChanged += (sender, args) => NumericUpDownValueChanged(numericUpDown1, args);
+            this.Controls.Add(numericUpDown1);
         }
 
         private void GenerateTable(int columnCount, int rowCount)
@@ -159,7 +175,7 @@ namespace LipSyncApp
                     {
                         Timecode cursorPosition = this.myVegas.Transport.CursorPosition;
                         this.myVegas.SelectionStart = cursorPosition;
-                        VideoEvent videoEvent = (VideoEvent)AddMedia(this.myVegas.Project, PictureBoxControl.PictureBox.ImageLocation, 0, cursorPosition, Timecode.FromFrames(300));
+                        VideoEvent videoEvent = (VideoEvent)AddMedia(this.myVegas.Project, PictureBoxControl.PictureBox.ImageLocation, animationTrack, cursorPosition, Timecode.FromFrames(300));
 
                     }
                 }
@@ -169,6 +185,16 @@ namespace LipSyncApp
                 }
             }
         }
+
+        private void NumericUpDownValueChanged(Object sender, EventArgs args)
+        {
+            using (UndoBlock undo = new UndoBlock("NumericUpDown value changed"))
+            {
+                NumericUpDown obj1 = sender as NumericUpDown;
+                animationTrack = (int)obj1.Value - 1;
+            }
+        }
+
 
         private void OnImageChange(Object sender, EventArgs args)
         {
