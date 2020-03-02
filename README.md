@@ -11,7 +11,7 @@ Start by adding your images to the image boxes by clicking the `...` buttons and
 
 After selecting your images, right click the main Vegas timeline and insert a video track. Click the `+` button underneath your desired image to add it to the video track. The image will be added to the track at the point where the timeline cursor is at.
 
-* _Note: The LipSyncApp automatically puts images in the first video track of Vegas. Reserve this track only for your mouth animations._
+* _Note: The LipSyncApp automatically puts images to whichever track the "Add to Track" textbox is set to._
 
 * _Note: If you try to add an image without first inserting a video track, you will receive an error._
 
